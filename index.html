@@ -67,7 +67,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       arObject.visible = false;
       scene.addNode(arObject);
 
-      let flower = new Gltf2Node({url: 'media/gltf/sunflower/sunflower.gltf'});
+      // Replace 3D models here
+      let flower = new Gltf2Node({url: 'media/gltf/viking-room/vikings.gltf'});
       arObject.addNode(flower);
 
       let reticle = new Gltf2Node({url: 'media/gltf/reticle/reticle.gltf'});
@@ -80,22 +81,25 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       vec3.set(shadow.scale, 0.15, 0.15, 0.15);
       arObject.addNode(shadow);
 
+      // The value below controls the max number of spawned objects.
       const MAX_FLOWERS = 30;
       let flowers = [];
 
       // Ensure the background is transparent for AR.
       scene.clear = false;
 
+      // Main class to start AR
       function initXR() {
         xrButton = new WebXRButton({
           onRequestSession: onRequestSession,
           onEndSession: onEndSession,
           textEnterXRTitle: "START AR",
           textXRNotFoundTitle: "AR NOT FOUND",
-          textExitXRTitle: "EXIT  AR",
+          textExitXRTitle: "EXIT AR",
         });
         document.querySelector('header').appendChild(xrButton.domElement);
 
+        // To check is AR is supported or not on the user's device
         if (navigator.xr) {
           navigator.xr.isSessionSupported('immersive-ar')
                       .then((supported) => {
@@ -156,8 +160,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         xrButton.setSession(null);
       }
 
-      // Adds a new object to the scene at the
-      // specified transform.
+      // Adds a new object to the scene at the location that the user taps
       function addARObjectAt(matrix) {
         let newFlower = arObject.clone();
         newFlower.visible = true;
